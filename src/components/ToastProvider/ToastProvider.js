@@ -24,6 +24,7 @@ function ToastProvider({ children }) {
     variant,
     handleVariantChange,
     toastMessageList,
+    setToastMessageList,
     handleSubmit,
   };
   return (

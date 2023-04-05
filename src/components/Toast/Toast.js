@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   AlertOctagon,
   AlertTriangle,
@@ -8,7 +8,7 @@ import {
 } from "react-feather";
 
 import VisuallyHidden from "../VisuallyHidden";
-
+import { ToastContext } from "../ToastProvider/ToastProvider";
 import styles from "./Toast.module.css";
 
 const ICONS_BY_VARIANT = {
@@ -18,25 +18,22 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({
-  children,
-  variant,
-  id,
-  setToastMessageList,
-  toastMessageList,
-}) {
+function Toast({ children, variant, id }) {
   const Icon = ICONS_BY_VARIANT[variant];
+  const { toastMessageList, setToastMessageList } = useContext(ToastContext);
   return (
     <div className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
         <Icon size={24} />
       </div>
-      <div className="VisuallyHidden_wrapper">error - </div>
-      <p className={styles.content}>{children}</p>
+      <p className={styles.content}>
+        <VisuallyHidden>{variant} -</VisuallyHidden>
+        {children}
+      </p>
       <button
         className={styles.closeButton}
-        ariaLabel="Dismiss message"
-        ariaLive="off"
+        aria-label="Dismiss message"
+        aria-live="off"
         onClick={() =>
           setToastMessageList(toastMessageList.filter((item) => item.id !== id))
         }
